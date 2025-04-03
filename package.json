@@ -2,6 +2,7 @@
   "name": "express-mongodb",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "env-cmd node --watch index",
     "seed": "env-cmd node config/seed"
@@ -11,6 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "env-cmd": "^10.1.0",
     "express": "^4.19.2",
     "mongoose": "^8.4.1",
