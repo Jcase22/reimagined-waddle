@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "env-cmd node --watch index",
+    "server": "env-cmd node --watch index",
     "seed": "env-cmd node config/seed"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "dotenv": "^16.4.7",
     "env-cmd": "^10.1.0",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
     "morgan": "^1.10.0",
     "validator": "^13.12.0"
