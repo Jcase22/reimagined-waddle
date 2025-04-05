@@ -84,9 +84,6 @@ const homeInit = async () => {
       prevBtn.style.display = 'block';
     }
 
-    // prevBtn.disabled = currentPage === 1;
-
-    console.log('hello', currentPage, totalPages)
     if (currentPage === totalPages) {
       nextBtn.style.display = 'none';
     } else {
@@ -101,7 +98,6 @@ const homeInit = async () => {
 
       const response = await fetch(`http://localhost:3000/products/favorites/${userId}`);
       const data = await response.json();
-
 
       data.favorites.forEach(product => {
         const div = document.createElement('div');
