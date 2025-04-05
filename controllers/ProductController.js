@@ -66,3 +66,51 @@ export const removeFavorite = async (req, res) => {
     res.status(500).json({ message: "server error", error })
   }
 }
+
+export const getProductDetails = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "product not found" })
+    }
+
+    res.status(200).json({ message: "product found", product })
+  } catch (error) {
+    res.status(500).json({ message: "server error", error })
+  }
+}
+
+export const addFavorite = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const userId = req.params.userId;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "product not found" })
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" })
+    }
+
+    // Check if the product is already in the user's favorites
+    const isFavorite = user.favorites.some(fav => fav._id.toString() === productId);
+    if (isFavorite) {
+      return res.status(400).json({ message: "product already in favorites" })
+    }
+
+    user.favorites.push(product);
+    await user.save();
+
+    res.status(200).json({ message: "favorite added", favorites: user.favorites })
+  } catch (error) {
+    res.status(500).json({ message: "server error", error })
+  }
+}
