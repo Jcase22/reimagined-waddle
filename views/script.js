@@ -1,59 +1,110 @@
-const BASE_URL = 'http://localhost:3000/api/user';
-// check if user is logged in
-const username = window.localStorage.getItem('username');
-const isLoggedIn = username !== null;
-// ! This is a naive implementation of checking whether the user is logged in
-// ! You should have an endpoint that allows the client to check if their current token is still valid.
-// The steps are as follows:
-// 1. check if token exists in localStorage
-// 2. if not, then it means user is not logged in
-// 3. if so, make a GET request to the API, append the token in either the header or the cookie. ex. http://localhost:3000/api/user/validate
-// 4. If the response is OK, that means user is logged in.
+const BASE_URL = 'http://localhost:3000/user';
 
-// select necessary elements
-const btnContainer = document.getElementById('btn-container');
-const loginBtn = document.getElementById('login-btn');
-const signupBtn = document.getElementById('signup-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const greeting = document.getElementById('greeting');
+const validate = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/tokenCheck`)
 
-if (isLoggedIn) {
-  // hide login/signup buttons
-  loginBtn.style.display = 'none';
-  signupBtn.style.display = 'none';
+    const data = await response.json();
 
-  // display needed content
-  greeting.innerText = `Hello ${username}`;
-  logoutBtn.style.display = 'inline';
-} else {
-  // show login/signup buttons
-  loginBtn.style.display = 'inline';
-  signupBtn.style.display = 'inline';
-
-  // hide un-wanted content
-  greeting.innerText = '';
-  logoutBtn.style.display = 'none';
+    if (data.isValid) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-const logoutHanlder = () => {
-  fetch(`${BASE_URL}/logout`)
-    .then((res) => {
-      if (!res.ok) {
-        alert('Error Logging Out');
-        return;
+const isLoggedIn = validate();
+
+const getUserData = async () => {
+
+  console.log('getting user data');
+  console.log(isLoggedIn)
+  const userId = window.localStorage.getItem('userId');
+
+  try {
+    const response = await fetch(`${BASE_URL}/${userId}`)
+
+    if (!response.ok) {
+      alert('Error fetching user data');
+      return;
+    }
+
+    const data = await response.json();
+
+    window.localStorage.setItem('username', data.user.username);
+    // window.localStorage.setItem('role', data.user.role);
+
+    console.log(data.user)
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// select necessary elements
+const init = async () => {
+  const isLoggedIn = await validate();
+
+  const btnContainer = document.getElementById('btn-container');
+  const loginBtn = document.getElementById('login-btn');
+  const signupBtn = document.getElementById('signup-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+  const greeting = document.getElementById('greeting');
+
+  if (isLoggedIn) {
+    // hide login/signup buttons
+    loginBtn.style.display = 'none';
+    signupBtn.style.display = 'none';
+
+    await getUserData()
+    const username = window.localStorage.getItem('username');
+
+    // display needed content
+    greeting.innerText = `Hello ${username}`;
+    logoutBtn.style.display = 'inline';
+  } else {
+    // show login/signup buttons
+    loginBtn.style.display = 'inline';
+    signupBtn.style.display = 'inline';
+
+    // hide un-wanted content
+    greeting.innerText = '';
+    logoutBtn.style.display = 'none';
+  }
+
+
+
+  const logoutHandler = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Logout failed');
       }
-      return res.json();
-    })
-    .then((data) => {
-      console.log(data);
-      // after logging out, remove token and username from localStorage
+
+      const data = await response.json();
+      console.log('Logout response:', data);
+
+      // remove token and username from localStorage
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('username');
-    })
-    .then(() => window.location.reload()) // refresh the page to reflect the page changes
-    .catch((err) => {
-      alert(err.message);
-    });
-};
+      window.localStorage.removeItem('userId');
+      // refresh the page to reflect the changes
+      window.location.reload();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
-logoutBtn.addEventListener('click', logoutHanlder);
+  logoutBtn.addEventListener('click', logoutHandler);
+}
+
+window.addEventListener('DOMContentLoaded', init);
