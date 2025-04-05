@@ -2,6 +2,7 @@ import db from './connection.js';
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import bcrypt from 'bcryptjs';
+import { fakeData } from './fakedata.js'
 
 (async () => {
   try {
@@ -32,6 +33,8 @@ import bcrypt from 'bcryptjs';
     );
     user.favorites = productInsert.map((product) => product._id);
     await user.save();
+
+    const productInsert2 = await Product.insertMany(fakeData);
 
     console.log('DB initialized');
   } catch (error) {
