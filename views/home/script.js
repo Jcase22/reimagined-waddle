@@ -64,8 +64,9 @@ const homeInit = async () => {
 
       // comment right here in the innreHTML
       div.innerHTML = `
-      <!-- <img src="${product.imageUrl}" alt="${product.name}" /> -->
-      <h3>${product.name}</h3>
+      <a href="/product/details/${product._id}">
+        <h3>${product.name}</h3>
+      </a>
       `;
       gallery.appendChild(div);
     });
@@ -100,7 +101,9 @@ const homeInit = async () => {
         div.className = 'favorite-product';
 
         div.innerHTML = `
-        <h3>${product.name}</h3>
+        <a href="/product/details/${product._id}">
+          <h3>${product.name}</h3>
+        </a>
         <button class="remove-favorite" data-product-id="${product._id}">Remove</button>
         `;
         sidebar.appendChild(div);
