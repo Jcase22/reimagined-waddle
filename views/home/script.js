@@ -99,16 +99,40 @@ const homeInit = async () => {
         const div = document.createElement('div');
         div.className = 'favorite-product';
 
-        // comment right here in the innreHTML
         div.innerHTML = `
-        <!-- <img src="${product.imageUrl}" alt="${product.name}" /> -->
         <h3>${product.name}</h3>
+        <button class="remove-favorite" data-product-id="${product._id}">Remove</button>
         `;
         sidebar.appendChild(div);
       });
+
+      const removeButtons = document.querySelectorAll('.remove-favorite');
+
+      removeButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const productId = e.target.dataset.productId;
+          const userId = window.localStorage.getItem('userId');
+
+          try {
+            const response = await fetch(`http://localhost:3000/products/favorites/${userId}/${productId}`, {
+              method: 'PATCH',
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to remove favorite');
+            }
+
+            const data = await response.json();
+
+            e.target.parentElement.remove();
+          } catch (error) {
+            console.error('Error removing favorite:', error);
+          }
+        });
+      })
       console.log(data)
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

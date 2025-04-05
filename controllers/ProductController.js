@@ -40,3 +40,29 @@ export const getFavorites = async (req, res) => {
     res.status(500).json({ message: "server error", error })
   }
 }
+
+export const removeFavorite = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const user = await User.findById(userId).populate('favorites');
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" })
+    }
+
+    for (let i = 0; i < user.favorites.length; i++) {
+      if (user.favorites[i]._id.toString() === productId) {
+        user.favorites.splice(i, 1);
+        break;
+      }
+    }
+    await user.save();
+
+    res.status(200).json({ message: "favorite removed", favorites: user.favorites })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "server error", error })
+  }
+}
