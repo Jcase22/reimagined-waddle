@@ -1,6 +1,8 @@
 
 let currentPage = 1;
 let totalPages = 1;
+let brand = '';
+let type = '';
 
 const validate = async () => {
   try {
@@ -27,6 +29,7 @@ const homeInit = async () => {
   const signupBtn = document.getElementById('signup-btn');
   const logoutBtn = document.getElementById('logout-btn');
   const sidebar = document.getElementById('sidebar');
+  const brandSelect = document.getElementById('brand-select');
 
   if (isLoggedIn) {
     loginBtn.style.display = 'none';
@@ -36,23 +39,6 @@ const homeInit = async () => {
     loginBtn.style.display = 'inline';
     signupBtn.style.display = 'inline';
     logoutBtn.style.display = 'none';
-  }
-
-  const fetchProducts = async (page) => {
-    try {
-      const response = await fetch(`/products?page=${page}`);
-      const data = await response.json();
-
-      console.log(data)
-
-      currentPage = Number(data.page);
-      totalPages = Number(data.totalPages);
-
-      renderProducts(data.products);
-      updateButtons();
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
   }
 
   const renderProducts = (products) => {
@@ -72,6 +58,25 @@ const homeInit = async () => {
     });
   }
 
+  const fetchProducts = async (page, brand = '', type = '') => {
+    try {
+
+      const response = await fetch(`/products?page=${page}&brand=${brand}&type=${type}`);
+      const data = await response.json();
+
+      console.log('data', data)
+
+      currentPage = Number(data.page);
+      totalPages = Number(data.totalPages);
+
+      renderProducts(data.products, brand, type);
+      updateButtons();
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  }
+
+
   const updateButtons = () => {
     if (currentPage === 1) {
       prevBtn.style.display = 'none';
@@ -80,6 +85,8 @@ const homeInit = async () => {
     }
 
     // prevBtn.disabled = currentPage === 1;
+
+    console.log('hello', currentPage, totalPages)
     if (currentPage === totalPages) {
       nextBtn.style.display = 'none';
     } else {
@@ -139,15 +146,22 @@ const homeInit = async () => {
     }
   }
 
+  brandSelect.addEventListener('change', (e) => {
+    console.log(e.target.value)
+    brand = e.target.value;
+    currentPage = 1;
+    fetchProducts(currentPage, brand, type);
+  });
+
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
-      fetchProducts(currentPage - 1);
+      fetchProducts(currentPage - 1, brand, type);
     }
   });
 
   nextBtn.addEventListener('click', () => {
     if (currentPage < totalPages) {
-      fetchProducts(currentPage + 1);
+      fetchProducts(currentPage + 1, brand, type);
     }
   });
 

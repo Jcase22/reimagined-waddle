@@ -10,13 +10,22 @@ export const getProducts = async (req, res) => {
     const limit = 9;
     const skip = (page - 1) * limit;
 
-    const products = await Product.find().skip(skip).limit(limit);
-    const total = await Product.countDocuments();
-    const totalPages = Math.ceil(total / limit);
-
-    if (!products) {
-      return res.status(404).json({ message: "no products found" });
+    let filter = {};
+    if (req.query.brand) {
+      filter.brand = req.query.brand;
     }
+    if (req.query.type) {
+      filter.type = req.query.type;
+    }
+
+    const products = await Product.find(filter).skip(skip).limit(limit);
+
+    if (!products.length) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
+    const total = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(total / limit);
 
     res.status(200).json({ message: "products found", products, totalPages, page });
   } catch (error) {
