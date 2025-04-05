@@ -11,12 +11,14 @@ export const getProducts = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const products = await Product.find().skip(skip).limit(limit);
+    const total = await Product.countDocuments();
+    const totalPages = Math.ceil(total / limit);
 
     if (!products) {
       return res.status(404).json({ message: "no products found" });
     }
 
-    res.status(200).json({ message: "products found", products });
+    res.status(200).json({ message: "products found", products, totalPages, page });
   } catch (error) {
     res.status(500).json({ message: "server error", error })
   }

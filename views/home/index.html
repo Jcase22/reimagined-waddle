@@ -4,9 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+          body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    </style>
   </head>
   <body>
-    <div>HELLO FROM THE HOME PAGE</div>
+    <div id="btn-container">
+      <button id="login-btn"><a href="/login">Login</a></button>
+      <button id="signup-btn"><a href="/registration">Signup</a></button>
+      <button id="logout-btn">Logout</button>
+      <button id="home-btn"><a href="/home">Home</a></button>
+    </div>
+
+
+    <h1>Product Gallery</h1>
+    <div class="gallery" id="productGallery"></div>
+
+    <div class="pagination">
+      <button id="prev-btn">Previous</button>
+      <button id="next-btn">Next</button>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

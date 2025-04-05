@@ -16,12 +16,8 @@ const validate = async () => {
   }
 }
 
-const isLoggedIn = validate();
-
 const getUserData = async () => {
 
-  console.log('getting user data');
-  console.log(isLoggedIn)
   const userId = window.localStorage.getItem('userId');
 
   try {
