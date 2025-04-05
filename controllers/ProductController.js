@@ -114,3 +114,19 @@ export const addFavorite = async (req, res) => {
     res.status(500).json({ message: "server error", error })
   }
 }
+
+export const getProductsByBrand = async (req, res) => {
+  try {
+    const brand = req.params.brand;
+
+    const products = await Product.find({ brand });
+
+    if (!products) {
+      return res.status(404).json({ message: "no products found" });
+    }
+
+    res.status(200).json({ message: "products found", products });
+  } catch (error) {
+    res.status(500).json({ message: "server error", error })
+  }
+}

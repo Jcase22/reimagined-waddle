@@ -3,13 +3,12 @@ const productId = url.split('/')[5]
 
 const productPageInit = async () => {
   const productContainer = document.getElementById('product-container');
+  const relatedProducts = document.getElementById('related-products');
   const userId = window.localStorage.getItem('userId');
 
   const detailsResponse = await fetch(`http://localhost:3000/products/details/${productId}`);
 
   const detailsData = await detailsResponse.json();
-
-  console.log('details data', detailsData)
 
   productContainer.innerHTML = `
   <div class="product-details"></div>
@@ -17,7 +16,7 @@ const productPageInit = async () => {
     <p>${detailsData.product.description}</p>
     <button id="add-fav">Favorite</button>
     `
-    const favoriteBtn = document.getElementById('add-fav');
+  const favoriteBtn = document.getElementById('add-fav');
 
   favoriteBtn.addEventListener('click', async () => {
     try {
@@ -35,6 +34,32 @@ const productPageInit = async () => {
       console.error('Error adding favorite:', error);
     }
   })
+
+  const brandProductResponse = await fetch(`http://localhost:3000/products/brand/${detailsData.product.brand}`);
+
+  const brandProductData = await brandProductResponse.json();
+  console.log(brandProductData);
+
+  brandProductData.products.forEach(product => {
+
+    console.log(product)
+
+    if (product._id === productId) {
+      return;
+    }
+
+    const div = document.createElement('div');
+    div.classList.add('product-card');
+    div.innerHTML = `
+    <div>
+      <a href="/product/details/${product._id}">
+        <h3>${product.name}</h3>
+      </a>
+    </div>
+    `;
+    relatedProducts.appendChild(div);
+  });
+
 
 }
 
