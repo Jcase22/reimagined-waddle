@@ -23,3 +23,20 @@ export const getProducts = async (req, res) => {
     res.status(500).json({ message: "server error", error })
   }
 }
+
+export const getFavorites = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId).populate('favorites');
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" })
+    }
+
+    res.status(200).json({ message: "user found", favorites: user.favorites })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "server error", error })
+  }
+}

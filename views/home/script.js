@@ -26,6 +26,7 @@ const homeInit = async () => {
   const loginBtn = document.getElementById('login-btn');
   const signupBtn = document.getElementById('signup-btn');
   const logoutBtn = document.getElementById('logout-btn');
+  const sidebar = document.getElementById('sidebar');
 
   if (isLoggedIn) {
     loginBtn.style.display = 'none';
@@ -85,6 +86,32 @@ const homeInit = async () => {
     }
   }
 
+  const loadSidebarContent = async () => {
+    const userId = window.localStorage.getItem('userId');
+
+    try {
+
+      const response = await fetch(`http://localhost:3000/products/favorites/${userId}`);
+      const data = await response.json();
+
+
+      data.favorites.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'favorite-product';
+
+        // comment right here in the innreHTML
+        div.innerHTML = `
+        <!-- <img src="${product.imageUrl}" alt="${product.name}" /> -->
+        <h3>${product.name}</h3>
+        `;
+        sidebar.appendChild(div);
+      });
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
       fetchProducts(currentPage - 1);
@@ -97,7 +124,9 @@ const homeInit = async () => {
     }
   });
 
+  // fetch products on page load
   fetchProducts(1);
+  loadSidebarContent();
 
   const logoutHandler = async () => {
     try {
