@@ -20,6 +20,13 @@ const validate = async () => {
   }
 }
 
+const role = window.localStorage.getItem('role');
+if (role === 'admin') {
+  // redirect to admin page
+  window.location.href = '/admin';
+}
+
+
 const homeInit = async () => {
   const isLoggedIn = await validate();
 
@@ -185,6 +192,7 @@ const homeInit = async () => {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('username');
       window.localStorage.removeItem('userId');
+      window.localStorage.removeItem('role');
       // refresh the page to reflect the changes
       // window.location.reload();
       window.location.href = '/';

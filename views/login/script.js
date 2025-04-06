@@ -18,7 +18,7 @@ const init = async () => {
 
   if (isLoggedIn) {
     // if already logged in, redirect to home page
-    window.location.href = '/';
+    window.location.href = '/home';
   }
 
   // select needed elements
@@ -45,15 +45,29 @@ const init = async () => {
 
       const data = await response.json();
 
+      console.log('Login response:', data);
+
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
 
       // after login, set the token and username to localStorage
       window.localStorage.setItem('userId', data._id);
+      window.localStorage.setItem('role', data.role);
+
+      let role = data.role;
+
+      if (role === 'admin') {
+        window.location.href = '/admin';
+      }
+
+      if (role === 'user') {
+        window.location.href = '/home';
+      }
 
       // redirect to home page
-      window.location.href = '/';
+
+
     } catch (err) {
       console.error('Login error:', err);
       alert(err.message);

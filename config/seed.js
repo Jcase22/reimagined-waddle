@@ -10,6 +10,9 @@ import { fakeData } from './fakedata.js'
 
     const hashedPassword = await bcrypt.hash('password', 10);
 
+    const admin = new User({ username: "Justin", email: "jcase@email.com", password: hashedPassword, role: 'admin' });
+    await admin.save();
+
     const user = new User({ username: 'Will', email: "will@beaconfire.com", password: hashedPassword });
 
     const productInsert = await Product.insertMany(

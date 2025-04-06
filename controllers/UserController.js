@@ -78,7 +78,7 @@ export const login = async (req, res) => {
 
     res.cookie("token", token)
 
-    res.status(200).json({ message: "login successful", token, _id: user._id })
+    res.status(200).json({ message: "login successful", token, _id: user._id, role: user.role })
   } catch (error) {
     res.status(500).json({ message: "server error", error })
   }
@@ -86,9 +86,35 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-
     res.cookie("token", "")
     res.json({ message: "Logged out successfully" })
+  } catch (error) {
+    res.status(500).json({ message: "server error", error })
+  }
+}
+
+export const roleCheck = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "user not found" })
+    }
+    const isAdmin = user.role === 'admin';
+    const isUser = user.role === 'user';
+
+    res.status(200).json({ message: "user found", isAdmin, isUser })
+  } catch (error) {
+    res.status(500).json({ message: "server error", error })
+  }
+}
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).populate({path: 'favorites', model: 'Product' });
+
+    res.status(200).json({ message: "users found", users })
   } catch (error) {
     res.status(500).json({ message: "server error", error })
   }

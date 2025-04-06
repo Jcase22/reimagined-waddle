@@ -31,13 +31,19 @@ const getUserData = async () => {
     const data = await response.json();
 
     window.localStorage.setItem('username', data.user.username);
-    // window.localStorage.setItem('role', data.user.role);
+    window.localStorage.setItem('role', data.user.role);
 
-    console.log(data.user)
     return data;
   } catch (error) {
     console.log(error);
   }
+}
+
+
+const role = window.localStorage.getItem('role');
+if (role === 'admin') {
+  // redirect to admin page
+  window.location.href = '/admin';
 }
 
 // select necessary elements
@@ -87,12 +93,14 @@ const init = async () => {
       }
 
       const data = await response.json();
-      console.log('Logout response:', data);
 
-      // remove token and username from localStorage
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('username');
       window.localStorage.removeItem('userId');
+      window.localStorage.removeItem('role');
+
+      // redirect to home page
+      window.location.href = '/';
       // refresh the page to reflect the changes
       window.location.reload();
     } catch (error) {
