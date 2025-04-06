@@ -71,8 +71,6 @@ const homeInit = async () => {
       const response = await fetch(`/products?page=${page}&brand=${brand}&type=${type}`);
       const data = await response.json();
 
-      console.log('data', data)
-
       currentPage = Number(data.page);
       totalPages = Number(data.totalPages);
 
@@ -143,14 +141,12 @@ const homeInit = async () => {
           }
         });
       })
-      console.log(data)
     } catch (error) {
       console.error(error);
     }
   }
 
   brandSelect.addEventListener('change', (e) => {
-    console.log(e.target.value)
     brand = e.target.value;
     currentPage = 1;
     fetchProducts(currentPage, brand, type);
@@ -186,7 +182,6 @@ const homeInit = async () => {
       }
 
       const data = await response.json();
-      console.log('Logout response:', data);
 
       // remove token and username from localStorage
       window.localStorage.removeItem('token');
@@ -194,7 +189,6 @@ const homeInit = async () => {
       window.localStorage.removeItem('userId');
       window.localStorage.removeItem('role');
       // refresh the page to reflect the changes
-      // window.location.reload();
       window.location.href = '/';
     } catch (error) {
       console.error('Logout error:', error);

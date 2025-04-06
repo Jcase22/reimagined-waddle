@@ -12,10 +12,6 @@ const adminPageInit = async () => {
 
       const data = await response.json();
 
-      console.log(data.users)
-
-
-
       data.users.forEach(user => {
 
         let favoritesHTML = '<ul>';
@@ -59,7 +55,6 @@ const adminPageInit = async () => {
       }
 
       const data = await response.json();
-      console.log('Logout response:', data);
 
       // remove token and username from localStorage
       window.localStorage.removeItem('token');
@@ -67,7 +62,6 @@ const adminPageInit = async () => {
       window.localStorage.removeItem('userId');
       window.localStorage.removeItem('role');
       // refresh the page to reflect the changes
-      // window.location.reload();
       window.location.href = '/';
     } catch (error) {
       console.error('Logout error:', error);

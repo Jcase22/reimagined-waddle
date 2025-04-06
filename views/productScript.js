@@ -29,7 +29,6 @@ const productPageInit = async () => {
 
       const data = await response.json();
 
-      console.log('Favorite added:', data);
     } catch (error) {
       console.error('Error adding favorite:', error);
     }
@@ -38,11 +37,8 @@ const productPageInit = async () => {
   const brandProductResponse = await fetch(`http://localhost:3000/products/brand/${detailsData.product.brand}`);
 
   const brandProductData = await brandProductResponse.json();
-  console.log(brandProductData);
 
   brandProductData.products.forEach(product => {
-
-    console.log(product)
 
     if (product._id === productId) {
       return;
