@@ -42,10 +42,12 @@ const homeInit = async () => {
     loginBtn.style.display = 'none';
     signupBtn.style.display = 'none';
     logoutBtn.style.display = 'inline';
+    sidebar.style.display = 'block';
   } else {
     loginBtn.style.display = 'inline';
     signupBtn.style.display = 'inline';
     logoutBtn.style.display = 'none';
+    sidebar.style.display = 'none';
   }
 
   const renderProducts = (products) => {
