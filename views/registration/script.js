@@ -83,7 +83,6 @@ const handleSubmit = async (e) => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    validate inputs
     if (!username || !email || !password) {
       alert('Please fill in all fields');
       return;
@@ -108,16 +107,19 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
-    console.log('Signup response:', data);
-
     if (!response.ok) {
       throw new Error(data.message || 'Signup failed');
+    }
+
+    if (response.ok) {
+      alert('Signup successful! Please log in.');
     }
 
     window.localStorage.setItem('token', data.token);
     window.localStorage.setItem('username', username);
 
     window.location.href = '/';
+
   } catch (error) {
     console.log(error);
     alert(error.message);
