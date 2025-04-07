@@ -17,6 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+// app.get('/admin', adminPermissionCheck,(req, res) => {
+//   res.send("TESTING");
+// })
+
 app.use(express.static(path.join(__dirname, 'views')));
 
 app.get('/product/details/:productId', async (req, res) => {
