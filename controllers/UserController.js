@@ -10,11 +10,22 @@ export const generateToken = (userId) => {
 
 export const tokenCheck = async (req, res) => {
   try {
+    let token = req.cookies.token;
+
+    if (!token) {
+      return res.json({ message: "No token available, user is not logged in", isValid: false })
+    }
+
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = decoded;
+
     res.status(200).json({ message: "token is valid", isValid: true })
   } catch (error) {
     res.status(500).json({ message: "server error", error })
   }
 }
+
+
 
 export const getUser = async (req, res) => {
   try {
@@ -111,7 +122,7 @@ export const roleCheck = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).populate({path: 'favorites', model: 'Product' });
+    const users = await User.find({}).populate({ path: 'favorites', model: 'Product' });
 
     res.status(200).json({ message: "users found", users })
   } catch (error) {

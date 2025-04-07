@@ -31,11 +31,12 @@ const productPageInit = async () => {
   console.log('detailsData', detailsData);
 
   productContainer.innerHTML = `
-  <div class="product-details"></div>
   <img src="${detailsData.product.image}" alt="${detailsData.product.name}">
-    <h1>${detailsData.product.name}</h1>
-    <p>${detailsData.product.description}</p>
-    <button id="add-fav">Favorite</button>
+  <div class="product-details">
+  <h1>${detailsData.product.name}</h1>
+  <p>${detailsData.product.description}</p>
+  <button id="add-fav">Favorite</button>
+  </div>
     `
   const favoriteBtn = document.getElementById('add-fav');
 
@@ -67,6 +68,7 @@ const productPageInit = async () => {
 
   brandProductData.products.forEach(product => {
 
+    // Check if the product is the same as the current product
     if (product._id === productId) {
       return;
     }

@@ -37,6 +37,7 @@ const homeInit = async () => {
   const logoutBtn = document.getElementById('logout-btn');
   const sidebar = document.getElementById('sidebar');
   const brandSelect = document.getElementById('brand-select');
+  const pageInfo = document.getElementById('page-info');
 
   if (isLoggedIn) {
     loginBtn.style.display = 'none';
@@ -60,7 +61,7 @@ const homeInit = async () => {
       // comment right here in the innreHTML
       div.innerHTML = `
       <a href="/product/details/${product._id}">
-        <img src="${product.image}" alt="${product.name}">
+        <img src="${product.image}" alt="${product.name}" style="width: 180px; height: 240px;">
         <h3>${product.name}</h3>
       </a>
       `;
@@ -97,6 +98,8 @@ const homeInit = async () => {
     } else {
       nextBtn.style.display = 'block';
     }
+
+    pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
   }
 
   const loadSidebarContent = async () => {
@@ -117,7 +120,7 @@ const homeInit = async () => {
         <img src="${product.image}" alt="${product.name}" style="width: 100px; height: 100px;">
           <h3>${product.name}</h3>
         </a>
-        <button class="remove-favorite" data-product-id="${product._id}" style="margin-bottom: 10px;">Remove</button>
+        <button class="remove-favorite" data-product-id="${product._id}">X</button>
         `;
         sidebar.appendChild(div);
       });

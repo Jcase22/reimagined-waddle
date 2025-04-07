@@ -7,8 +7,10 @@ const validate = async () => {
     const data = await response.json();
 
     if (data.isValid) {
+      console.log('User is logged in');
       return true;
     } else {
+      console.log('User is not logged in');
       return false;
     }
   } catch (error) {

@@ -22,6 +22,12 @@
         padding: 20px;
         background-color: #f4f4f4;
       }
+      .favorite-product {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
       .gallery {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -42,6 +48,21 @@
         justify-content: center;
         gap: 10px;
       }
+      .remove-favorite {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 9px;
+        cursor: pointer;
+        border-radius: 100px;
+        margin-left: 3px;
+      }
+      #home-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
     </style>
   </head>
   <body>
@@ -54,26 +75,35 @@
           <button id="home-btn"><a href="/home">Home</a></button>
         </div>
 
-        <h1>Product Gallery</h1>
-        <div>Filter By Brand</div>
+        <div id="home-header">
 
-        <select type="dropdown" id="brand-select">
-          <option value="">All Categories</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Google">Google</option>
-          <option value="Ford">Ford</option>
-          <option value="Toyota">Toyota</option>
-        </select>
+          <h1>Product Gallery</h1>
+
+          <div>
+            <div>Filter By Brand</div>
+            <select type="dropdown" id="brand-select">
+              <option value="">All Categories</option>
+              <option value="Apple">Apple</option>
+              <option value="Samsung">Samsung</option>
+              <option value="Google">Google</option>
+              <option value="Ford">Ford</option>
+              <option value="Toyota">Toyota</option>
+            </select>
+          </div>
+
+        </div>
 
         <div class="gallery" id="productGallery"></div>
 
         <div class="pagination">
           <button id="prev-btn">Previous</button>
+          <span id="page-info"></span>
           <button id="next-btn">Next</button>
         </div>
       </div>
-      <div id="sidebar"></div>
+      <div id="sidebar">
+        <h2 style="text-align: center;">Favorited Items</h2>
+      </div>
     </div>
 
     <script src="script.js"></script>

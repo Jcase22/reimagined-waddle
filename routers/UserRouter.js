@@ -4,11 +4,11 @@ import authMiddleware from '../middleware/authMiddleware.js';
 
 const userRouter = Router();
 
+userRouter.get('/tokenCheck', tokenCheck)
 userRouter.post('/signup', signup)
 userRouter.post('/login', login)
 userRouter.post('/logout', logout)
 userRouter.get('/getAllUsers', getAllUsers)
-userRouter.get('/tokenCheck', authMiddleware, tokenCheck)
 userRouter.get('/:userId', authMiddleware, getUser)
 userRouter.get('/role/:userId', authMiddleware, roleCheck)
 
