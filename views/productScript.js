@@ -32,6 +32,7 @@ const productPageInit = async () => {
 
   productContainer.innerHTML = `
   <div class="product-details"></div>
+  <img src="${detailsData.product.image}" alt="${detailsData.product.name}">
     <h1>${detailsData.product.name}</h1>
     <p>${detailsData.product.description}</p>
     <button id="add-fav">Favorite</button>
@@ -75,6 +76,7 @@ const productPageInit = async () => {
     div.innerHTML = `
     <div>
       <a href="/product/details/${product._id}">
+        <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 60px;">
         <h3>${product.name}</h3>
       </a>
     </div>

@@ -21,16 +21,19 @@ import { fakeData } from './fakedata.js'
           brand: 'Apple',
           name: 'iPhone 13',
           description: 'Latest iPhone model with A15 Bionic chip.',
+          image: "https://picsum.photos/seed/picsum/200/300"
         },
         {
           brand: 'Samsung',
           name: 'Galaxy S21',
           description: 'Flagship smartphone with Exynos 2100.',
+          image: "https://picsum.photos/seed/picsum/200/300"
         },
         {
           brand: 'Google',
           name: 'Pixel 6',
           description: 'Smartphone with Google Tensor chip.',
+          image: "https://picsum.photos/seed/picsum/200/300"
         },
       ],
     );

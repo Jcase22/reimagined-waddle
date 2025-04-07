@@ -100,7 +100,7 @@ const init = async () => {
       window.localStorage.removeItem('role');
 
       // redirect to home page
-      window.location.href = '/';
+      // window.location.href = '/';
       // refresh the page to reflect the changes
       window.location.reload();
     } catch (error) {

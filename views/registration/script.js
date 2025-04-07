@@ -115,10 +115,7 @@ const handleSubmit = async (e) => {
       alert('Signup successful! Please log in.');
     }
 
-    window.localStorage.setItem('token', data.token);
-    window.localStorage.setItem('username', username);
-
-    window.location.href = '/';
+    window.location.href = '/login';
 
   } catch (error) {
     console.log(error);

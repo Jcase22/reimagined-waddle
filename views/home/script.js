@@ -60,6 +60,7 @@ const homeInit = async () => {
       // comment right here in the innreHTML
       div.innerHTML = `
       <a href="/product/details/${product._id}">
+        <img src="${product.image}" alt="${product.name}">
         <h3>${product.name}</h3>
       </a>
       `;
@@ -105,6 +106,7 @@ const homeInit = async () => {
 
       const response = await fetch(`http://localhost:3000/products/favorites/${userId}`);
       const data = await response.json();
+      console.log('sidebar data', data);
 
       data.favorites.forEach(product => {
         const div = document.createElement('div');
@@ -112,9 +114,10 @@ const homeInit = async () => {
 
         div.innerHTML = `
         <a href="/product/details/${product._id}">
+        <img src="${product.image}" alt="${product.name}" style="width: 100px; height: 100px;">
           <h3>${product.name}</h3>
         </a>
-        <button class="remove-favorite" data-product-id="${product._id}">Remove</button>
+        <button class="remove-favorite" data-product-id="${product._id}" style="margin-bottom: 10px;">Remove</button>
         `;
         sidebar.appendChild(div);
       });
